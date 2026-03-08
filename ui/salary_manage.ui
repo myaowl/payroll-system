@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SalaryManageDialog</class>
+ <widget class="QDialog" name="SalaryManageDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>480</width>
+    <height>420</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Set / Edit Salary</string>
+  </property>
+  <property name="styleSheet">
+   <string>
+    QDialog { background:#1e2a3a; }
+    QLabel  { color:#c8d6e5; font-size:13px; }
+    QLabel#dlgTitle { color:#ffffff; font-size:17px; font-weight:bold; }
+    QLineEdit, QDoubleSpinBox, QDateEdit {
+      background:#253447; border:1px solid #3a4f66;
+      border-radius:6px; padding:7px 10px; color:#ffffff; font-size:13px;
+    }
+    QLineEdit:focus, QDoubleSpinBox:focus, QDateEdit:focus { border-color:#4a9eff; }
+    QDoubleSpinBox::up-button, QDoubleSpinBox::down-button { width:0; }
+    QPushButton#btnSave {
+      background:#4a9eff; color:#fff; border:none;
+      border-radius:6px; font-size:14px; font-weight:bold; padding:10px;
+    }
+    QPushButton#btnSave:hover { background:#3a8ef0; }
+    QPushButton#btnCancel {
+      background:#2a3d55; color:#c8d6e5; border:none;
+      border-radius:6px; font-size:13px; padding:10px;
+    }
+   </string>
+  </property>
+  <layout class="QVBoxLayout">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="contentsMargins" stdset="0">
+    <number>28</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="dlgTitle">
+     <property name="text">
+      <string>💰 Set Employee Salary</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Employee ID</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="txtEmpId">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Basic Salary (₱)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="spnBasic">
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <double>999999.989999999990687</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Allowances (₱)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="spnAllowances">
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <double>999999.989999999990687</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Deductions (₱)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="spnDeductions">
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <double>999999.989999999990687</double>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Tax Rate (%)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="spnTaxRate">
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Effective Date</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QDateEdit" name="dtEffective">
+       <property name="displayFormat">
+        <string>yyyy-MM-dd</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="lblNetPreview">
+     <property name="styleSheet">
+      <string>color:#2ecc71;font-size:14px;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Net Pay Preview: ₱0.00</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="errorLabel">
+     <property name="styleSheet">
+      <string>color:#ff5f5f;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout">
+     <item>
+      <widget class="QPushButton" name="btnCancel">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSave">
+       <property name="text">
+        <string>Save Salary</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

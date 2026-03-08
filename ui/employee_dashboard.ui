@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EmployeeDashboard</class>
+ <widget class="QMainWindow" name="EmployeeDashboard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Employee Dashboard – Payroll System</string>
+  </property>
+  <property name="styleSheet">
+   <string>
+    QMainWindow,QWidget { background-color:#1e2a3a; color:#c8d6e5; font-size:13px; }
+    QFrame#sidebar { background-color:#162031; border-right:1px solid #2a3d55; min-width:200px; max-width:200px; }
+    QLabel#appTitle { color:#ffffff; font-size:16px; font-weight:bold; padding:20px 16px 8px 16px; }
+    QLabel#appSub   { color:#2ecc71; font-size:11px; padding:0 16px 20px 16px; }
+    QPushButton.navBtn { background:transparent; color:#8a9bb0; border:none; border-radius:6px; text-align:left; padding:10px 16px; font-size:13px; }
+    QPushButton.navBtn:hover  { background:#1e2a3a; color:#ffffff; }
+    QPushButton.navBtn:checked{ background:#4a9eff20; color:#4a9eff; border-left:3px solid #4a9eff; }
+    QFrame.infoCard { background:#253447; border-radius:10px; }
+    QPushButton#btnLogout { background:#ff5f5f20; color:#ff5f5f; border:1px solid #ff5f5f40; border-radius:6px; padding:8px 16px; }
+    QPushButton#btnLogout:hover { background:#ff5f5f40; }
+   </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="mainLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="contentsMargins" stdset="0">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="sidebar">
+      <layout class="QVBoxLayout" name="sideLayout">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="contentsMargins" stdset="0">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="appTitle">
+         <property name="text">
+          <string>💼 PayrollPro</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="appSub">
+         <property name="text">
+          <string>Employee Portal</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnNavHome">
+         <property name="text">
+          <string>🏠  My Dashboard</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnNavPayslip">
+         <property name="text">
+          <string>🧾  My Payslips</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnNavLeave">
+         <property name="text">
+          <string>🗓  My Leaves</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblUser">
+         <property name="styleSheet">
+          <string>color:#8a9bb0;padding:8px 16px;</string>
+         </property>
+         <property name="text">
+          <string>👤 Employee</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnLogout">
+         <property name="styleSheet">
+          <string>margin:8px 16px 16px 16px;</string>
+         </property>
+         <property name="text">
+          <string>Logout</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="pageHome">
+       <layout class="QVBoxLayout">
+        <property name="contentsMargins" stdset="0">
+         <number>24</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="lblWelcome">
+          <property name="styleSheet">
+           <string>font-size:22px;font-weight:bold;color:#fff;</string>
+          </property>
+          <property name="text">
+           <string>Welcome!</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout">
+          <item>
+           <widget class="QFrame" name="cardBasic">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <layout class="QVBoxLayout">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="styleSheet">
+                <string>color:#8a9bb0;</string>
+               </property>
+               <property name="text">
+                <string>Basic Salary</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblBasic">
+               <property name="styleSheet">
+                <string>color:#4a9eff;font-size:22px;font-weight:bold;</string>
+               </property>
+               <property name="text">
+                <string>₱0.00</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="cardNet">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <layout class="QVBoxLayout">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="styleSheet">
+                <string>color:#8a9bb0;</string>
+               </property>
+               <property name="text">
+                <string>Latest Net Pay</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblNet">
+               <property name="styleSheet">
+                <string>color:#2ecc71;font-size:22px;font-weight:bold;</string>
+               </property>
+               <property name="text">
+                <string>₱0.00</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="cardLeave">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <layout class="QVBoxLayout">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="styleSheet">
+                <string>color:#8a9bb0;</string>
+               </property>
+               <property name="text">
+                <string>Pending Leaves</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblLeave">
+               <property name="styleSheet">
+                <string>color:#f39c12;font-size:22px;font-weight:bold;</string>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QFrame" name="cardInfo">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <layout class="QFormLayout" name="infoForm">
+           <property name="horizontalSpacing">
+            <number>12</number>
+           </property>
+           <property name="verticalSpacing">
+            <number>12</number>
+           </property>
+           <property name="contentsMargins" stdset="0">
+            <number>20</number>
+           </property>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pagePayslip"/>
+      <widget class="QWidget" name="pageLeave"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
