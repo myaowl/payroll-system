@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (QWidget, QDialog, QTableWidgetItem,
                               QVBoxLayout, QLabel, QHeaderView)
 from PyQt5.QtCore import Qt, QDate
 from database import get_connection
+from confirm_dialog import confirm
 
 
 class SalaryDialog(QDialog):
@@ -47,6 +48,10 @@ class SalaryDialog(QDialog):
         self.update_preview()
 
     def save(self):
+        if not confirm(self, "Save Salary",
+                f"Save salary settings for {self.emp_id}?\n\nBasic: ₱{self.spnBasic.value():,.2f}  |  Net ≈ shown above",
+                confirm_text="✔  Save", confirm_color="#2ecc71", icon="💰"):
+            return
         conn   = get_connection()
         cursor = conn.cursor()
         try:
@@ -86,7 +91,11 @@ class ManageSalary(QWidget):
         self.table = QTableWidget()
         self.table.setColumnCount(7)
         self.table.setHorizontalHeaderLabels(["Emp ID", "Name", "Basic (₱)", "Allowances (₱)", "Deductions (₱)", "Tax (%)", "Actions"])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        hh = self.table.horizontalHeader()
+        hh.setSectionResizeMode(QHeaderView.Stretch)
+        hh.setSectionResizeMode(6, QHeaderView.Fixed)
+        self.table.setColumnWidth(6, 150)
+        self.table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
         self.table.setSelectionBehavior(QTableWidget.SelectRows)
         self.table.setAlternatingRowColors(True)
@@ -122,9 +131,16 @@ class ManageSalary(QWidget):
             emp_id = row_data[0]
             cell   = QWidget()
             h      = QHBoxLayout(cell)
-            h.setContentsMargins(4,2,4,2)
-            btn = QPushButton("✏ Set Salary")
-            btn.setStyleSheet("background:#4a9eff30;color:#4a9eff;border:none;border-radius:4px;padding:4px 10px;")
+            h.setContentsMargins(6, 4, 6, 4)
+            btn = QPushButton("💰 Set Salary")
+            btn.setFixedHeight(30)
+            btn.setFocusPolicy(Qt.NoFocus)
+            btn.setCursor(Qt.PointingHandCursor)
+            btn.setStyleSheet("""
+                QPushButton{background:#2a3d55;color:#c8d6e5;border:none;
+                border-radius:5px;font-size:12px;padding:0 10px;}
+                QPushButton:hover{background:#2ecc71;color:#fff;}
+            """)
             btn.clicked.connect(lambda _, eid=emp_id: self.open_salary_dialog(eid))
             h.addWidget(btn)
             self.table.setCellWidget(row, 6, cell)

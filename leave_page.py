@@ -11,6 +11,7 @@ from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtGui import QColor, QFont, QPixmap
 
 from database import get_connection
+from confirm_dialog import confirm
 
 # Resolve attachments folder relative to THIS file, works from any cwd
 _HERE      = os.path.dirname(os.path.abspath(__file__))
@@ -351,6 +352,10 @@ class LeaveDialog(QDialog):
         if start > end:
             self.errorLabel.setText("End date must be after start date.")
             return
+        if not confirm(self, "Submit Leave Request",
+                f"Submit {self.cmbLeaveType.currentText()}\nfrom {start} to {end}?",
+                confirm_text="✔  Submit", confirm_color="#4a9eff", icon="🗓"):
+            return
 
         saved_path = None
         if self._attach_path and os.path.exists(self._attach_path):
@@ -419,9 +424,12 @@ class LeavePage(QWidget):
 
         hh = self.table.horizontalHeader()
         hh.setSectionResizeMode(QHeaderView.ResizeToContents)
-        hh.setSectionResizeMode(2, QHeaderView.Stretch)
-        hh.setSectionResizeMode(7, QHeaderView.Fixed)
-        self.table.setColumnWidth(7, 120)
+        hh.setSectionResizeMode(2, QHeaderView.Stretch)   # Type stretches
+        hh.setSectionResizeMode(1, QHeaderView.Fixed)     # Employee fixed
+        hh.setSectionResizeMode(7, QHeaderView.Fixed)     # Actions fixed
+        self.table.setColumnWidth(1, 130)                 # Employee name
+        self.table.setColumnWidth(7, 155)                 # Actions — enough for "🔍 View Details"
+        self.table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
         self.table.setSelectionBehavior(QTableWidget.SelectRows)
@@ -509,12 +517,12 @@ class LeavePage(QWidget):
             h    = QHBoxLayout(cell)
             h.setContentsMargins(6, 4, 6, 4)
 
-            btn_view = QPushButton("🔍 View")
+            btn_view = QPushButton("🔍 View Details")
             btn_view.setFixedHeight(30)
             btn_view.setStyleSheet("""
                 QPushButton{background:#2a3d55;color:#c8d6e5;border:none;
                 border-radius:5px;font-size:12px;padding:0 12px;}
-                QPushButton:hover{background:#3a4f66;color:#fff;}
+                QPushButton:hover{background:#4a9eff;color:#fff;}
             """)
             leave_info = {
                 "id": leave_id, "emp_id": emp_id, "emp_name": emp_name,

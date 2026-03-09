@@ -72,7 +72,31 @@ class SalaryReport(QWidget):
 
         # Table
         self.tblReport.setRowCount(0)
-        self.tblReport.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tblReport.setColumnCount(8)
+        self.tblReport.setHorizontalHeaderLabels([
+            "Emp ID", "Employee Name", "Department", "Period",
+            "Basic Salary", "Allowances", "Tax Deducted", "Net Pay"
+        ])
+        hh = self.tblReport.horizontalHeader()
+        hh.setSectionResizeMode(QHeaderView.ResizeToContents)
+        hh.setSectionResizeMode(1, QHeaderView.Stretch)
+        self.tblReport.setAlternatingRowColors(True)
+        self.tblReport.setStyleSheet("""
+            QTableWidget {
+                background:#253447; alternate-background-color:#1e2a3a;
+                border:none; border-radius:8px; gridline-color:#2a3d55; color:#c8d6e5;
+            }
+            QTableWidget::item { padding:6px 4px; color:#c8d6e5; }
+            QTableWidget::item:selected { background:#4a9eff30; color:#fff; }
+            QHeaderView::section {
+                background:#1e2a3a; color:#8a9bb0; padding:8px;
+                border:none; border-bottom:1px solid #2a3d55; font-weight:bold;
+            }
+        """)
+        bg_even = __import__("PyQt5.QtGui", fromlist=["QColor"]).QColor("#253447")
+        bg_odd  = __import__("PyQt5.QtGui", fromlist=["QColor"]).QColor("#1e2a3a")
+        c_white = __import__("PyQt5.QtGui", fromlist=["QColor"]).QColor("#c8d6e5")
+        c_green = __import__("PyQt5.QtGui", fromlist=["QColor"]).QColor("#2ecc71")
         for row_data in rows:
             row = self.tblReport.rowCount()
             self.tblReport.insertRow(row)
@@ -82,9 +106,12 @@ class SalaryReport(QWidget):
                 f"₱{row_data[4]:,.2f}", f"₱{row_data[5]:,.2f}",
                 f"₱{row_data[6]:,.2f}", f"₱{row_data[7]:,.2f}"
             ]
+            bg = bg_even if row % 2 == 0 else bg_odd
             for col, val in enumerate(formatted):
                 item = QTableWidgetItem(str(val))
                 item.setTextAlignment(Qt.AlignCenter)
+                item.setBackground(bg)
+                item.setForeground(c_green if col == 7 else c_white)
                 self.tblReport.setItem(row, col, item)
 
         self._raw_rows = rows  # keep for export

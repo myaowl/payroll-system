@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>640</height>
+    <width>1100</width>
+    <height>680</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,8 +23,8 @@
     QPushButton.navBtn:hover  { background:#1e2a3a; color:#ffffff; }
     QPushButton.navBtn:checked{ background:#4a9eff20; color:#4a9eff; border-left:3px solid #4a9eff; }
     QFrame.infoCard { background:#253447; border-radius:10px; }
-    QPushButton#btnLogout { background:#ff5f5f20; color:#ff5f5f; border:1px solid #ff5f5f40; border-radius:6px; padding:8px 16px; }
-    QPushButton#btnLogout:hover { background:#ff5f5f40; }
+    QPushButton#btnLogout { background:#e74c3c; color:#ffffff; border:none; border-radius:6px; padding:8px 16px; font-weight:bold; }
+    QPushButton#btnLogout:hover { background:#c0392b; color:#ffffff; }
    </string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -117,7 +117,7 @@
        <item>
         <widget class="QPushButton" name="btnLogout">
          <property name="styleSheet">
-          <string>margin:8px 16px 16px 16px;</string>
+          <string>margin:8px 16px 16px 16px; background:#e74c3c; color:#ffffff; border:none; border-radius:6px; font-weight:bold;</string>
          </property>
          <property name="text">
           <string>Logout</string>

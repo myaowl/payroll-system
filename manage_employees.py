@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import (QWidget, QDialog, QTableWidgetItem,
 from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtGui import QColor, QFont
 from database import get_connection
+from confirm_dialog import confirm
 
 
 # ── Add / Edit Employee Dialog ────────────────────────────────────────────────
@@ -46,6 +47,12 @@ class AddEmployeeDialog(QDialog):
         cursor = conn.cursor()
         try:
             if self.emp_data:
+                conn.close()
+                if not confirm(self, "Save Changes",
+                        f"Save changes to employee {emp_id}?",
+                        confirm_text="✔  Save", confirm_color="#4a9eff", icon="✏️"):
+                    return
+                conn = get_connection(); cursor = conn.cursor()
                 cursor.execute("""
                     UPDATE employees SET first_name=?, last_name=?, department=?,
                     position=?, email=?, phone=?, hire_date=?, status=?
@@ -150,7 +157,6 @@ class CredentialsDialog(QDialog):
                 copy_btn = QPushButton("Copy")
                 copy_btn.setFixedHeight(36)
                 copy_btn.setFixedWidth(60)
-                copy_btn.setToolTip(f"Copy {label}")
                 copy_btn.setStyleSheet("""
                     QPushButton{background:#2a3d55;color:#c8d6e5;border:none;
                     border-radius:6px;font-size:12px;font-weight:bold;}
@@ -227,15 +233,20 @@ class ManageEmployees(QWidget):
         ])
 
         hh = self.table.horizontalHeader()
-        hh.setSectionResizeMode(QHeaderView.ResizeToContents)
-        hh.setSectionResizeMode(1, QHeaderView.Stretch)   # Name stretches
+        hh.setSectionResizeMode(QHeaderView.Stretch)       # all columns share space
+        hh.setSectionResizeMode(0, QHeaderView.ResizeToContents)  # Emp ID
+        hh.setSectionResizeMode(5, QHeaderView.ResizeToContents)  # Phone
+        hh.setSectionResizeMode(6, QHeaderView.ResizeToContents)  # Hire Date
+        hh.setSectionResizeMode(7, QHeaderView.ResizeToContents)  # Username
         hh.setSectionResizeMode(8, QHeaderView.Fixed)
-        self.table.setColumnWidth(8, 260)
+        self.table.setColumnWidth(8, 120)
 
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
         self.table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.table.setAlternatingRowColors(True)
-        self.table.verticalHeader().setDefaultSectionSize(46)
+        self.table.verticalHeader().setDefaultSectionSize(40)
+        self.table.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
         self.table.setStyleSheet("""
             QTableWidget {
                 background:#253447; border:none; border-radius:8px;
@@ -290,35 +301,45 @@ class ManageEmployees(QWidget):
             h.setContentsMargins(4, 2, 4, 2)
             h.setSpacing(4)
 
-            btn_creds = QPushButton("🗝 Credentials")
-            btn_creds.setMinimumWidth(100)
-            btn_creds.setStyleSheet("""
-                QPushButton{background:#9b59b630;color:#d9d275;border:none;
-                border-radius:4px;padding:4px 10px;font-size:12px;}
-                QPushButton:hover{background:#d9d275;color:#fff;}
-            """)
+            def _icon_btn(icon, bg_hover):
+                b = QPushButton(icon)
+                b.setFixedSize(32, 32)
+                b.setFocusPolicy(Qt.NoFocus)
+                b.setCursor(Qt.PointingHandCursor)
+                b.setStyleSheet(f"""
+                    QPushButton {{
+                        background: transparent;
+                        border: none;
+                        font-size: 18px;
+                        padding: 2px;
+                        border-radius: 4px;
+                    }}
+                    QPushButton:hover {{
+                        background: {bg_hover};
+                    }}
+                    QPushButton:focus {{
+                        background: transparent;
+                        outline: none;
+                        border: none;
+                    }}
+                """)
+                return b
+
+            btn_creds = _icon_btn("🔑", "#f39c12")
             btn_creds.clicked.connect(
                 lambda _, eid=emp_id, ename=emp_name: self.show_credentials(eid, ename))
 
-            btn_edit = QPushButton("✏ Edit")
-            btn_edit.setStyleSheet("""
-                QPushButton{background:#4a9eff30;color:#4a9eff;border:none;
-                border-radius:4px;padding:4px 8px;font-size:12px;}
-                QPushButton:hover{background:#4a9eff;color:#fff;}
-            """)
+            btn_edit = _icon_btn("✏️", "#4a9eff")
             btn_edit.clicked.connect(lambda _, eid=emp_id: self.edit_employee(eid))
 
-            btn_del = QPushButton("🗑 Delete")
-            btn_del.setStyleSheet("""
-                QPushButton{background:#ff5f5f30;color:#ff5f5f;border:none;
-                border-radius:4px;padding:4px 8px;font-size:12px;}
-                QPushButton:hover{background:#ff5f5f;color:#fff;}
-            """)
+            btn_del = _icon_btn("🗑️", "#ff6b6b")
             btn_del.clicked.connect(lambda _, eid=emp_id: self.delete_employee(eid))
 
+            h.addStretch()
             h.addWidget(btn_creds)
             h.addWidget(btn_edit)
             h.addWidget(btn_del)
+            h.addStretch()
             self.table.setCellWidget(row, 8, cell)
 
     def filter_table(self, text):
@@ -351,10 +372,11 @@ class ManageEmployees(QWidget):
                 self._notify()
 
     def delete_employee(self, emp_id):
-        reply = QMessageBox.question(self, "Confirm Delete",
-            f"Delete employee {emp_id}?\n\nThis will also remove their salary, payslips, leave requests and login account.",
-            QMessageBox.Yes | QMessageBox.No)
-        if reply == QMessageBox.Yes:
+        if not confirm(self, "Delete Employee",
+                f"Are you sure you want to delete employee {emp_id}?\n\nThis will also remove their salary, payslips, leave records and login account.",
+                confirm_text="Delete", confirm_color="#e74c3c", icon="🗑"):
+            return
+        if True:
             conn   = get_connection()
             cursor = conn.cursor()
             cursor.execute("DELETE FROM employees      WHERE emp_id=?", (emp_id,))

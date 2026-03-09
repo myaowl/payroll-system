@@ -1,8 +1,9 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QButtonGroup, QTableWidgetItem, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QButtonGroup, QTableWidgetItem, QVBoxLayout, QHeaderView
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 from database import get_connection
+from confirm_dialog import confirm
 
 
 class AdminDashboard(QMainWindow):
@@ -123,7 +124,14 @@ class AdminDashboard(QMainWindow):
 
         tbl = self.tblRecentPayslips
         tbl.setRowCount(0)
-        tbl.horizontalHeader().setStretchLastSection(True)
+        tbl.setColumnCount(5)
+        tbl.setHorizontalHeaderLabels([
+            "Emp ID", "Employee Name", "Period", "Net Pay", "Generated On"
+        ])
+        hh = tbl.horizontalHeader()
+        hh.setSectionResizeMode(QHeaderView.ResizeToContents)
+        hh.setSectionResizeMode(1, QHeaderView.Stretch)
+        hh.setStretchLastSection(False)
         tbl.setAlternatingRowColors(True)
         tbl.setStyleSheet("""
             QTableWidget {
@@ -176,6 +184,9 @@ class AdminDashboard(QMainWindow):
                 tbl.setItem(row, col, item)
 
     def logout(self):
+        if not confirm(self, "Logout", "Are you sure you want to logout?",
+                confirm_text="Logout", confirm_color="#e74c3c", icon="🚪"):
+            return
         from login import LoginWindow
         self.login = LoginWindow()
         self.login.show()

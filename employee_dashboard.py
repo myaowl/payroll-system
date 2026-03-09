@@ -2,6 +2,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QButtonGroup, QLabel, QVBoxLayout
 from PyQt5.QtCore import Qt
 from database import get_connection
+from confirm_dialog import confirm
 
 
 class EmployeeDashboard(QMainWindow):
@@ -100,6 +101,9 @@ class EmployeeDashboard(QMainWindow):
         self.stackedWidget.setCurrentIndex(index)
 
     def logout(self):
+        if not confirm(self, "Logout", "Are you sure you want to logout?",
+                confirm_text="Logout", confirm_color="#e74c3c", icon="🚪"):
+            return
         from login import LoginWindow
         self.login = LoginWindow()
         self.login.show()
