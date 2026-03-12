@@ -2,8 +2,8 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QButtonGroup, QTableWidgetItem, QVBoxLayout, QHeaderView
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
-from database import get_connection
-from confirm_dialog import confirm
+from py.database import get_connection
+from py.confirm_dialog import confirm
 
 
 class AdminDashboard(QMainWindow):
@@ -32,11 +32,11 @@ class AdminDashboard(QMainWindow):
         self.showMaximized()
 
     def load_sub_pages(self):
-        from manage_employees  import ManageEmployees
-        from manage_salary     import ManageSalary
-        from leave_page        import LeavePage
-        from payslip_generator import PayslipGenerator
-        from salary_report     import SalaryReport
+        from py.manage_employees  import ManageEmployees
+        from py.manage_salary     import ManageSalary
+        from py.leave_page        import LeavePage
+        from py.payslip_generator import PayslipGenerator
+        from py.salary_report     import SalaryReport
 
         self.empWidget     = ManageEmployees()
         self.salaryWidget  = ManageSalary()
@@ -187,7 +187,7 @@ class AdminDashboard(QMainWindow):
         if not confirm(self, "Logout", "Are you sure you want to logout?",
                 confirm_text="Logout", confirm_color="#e74c3c", icon="🚪"):
             return
-        from login import LoginWindow
+        from py.login import LoginWindow
         self.login = LoginWindow()
         self.login.show()
         self.close()

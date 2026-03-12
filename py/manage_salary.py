@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import (QWidget, QDialog, QTableWidgetItem,
                               QMessageBox, QHBoxLayout, QPushButton,
                               QVBoxLayout, QLabel, QHeaderView)
 from PyQt5.QtCore import Qt, QDate
-from database import get_connection
-from confirm_dialog import confirm
+from py.database import get_connection
+from py.confirm_dialog import confirm
 
 
 class SalaryDialog(QDialog):

@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import (QWidget, QDialog, QTableWidgetItem,
                               QTableWidget, QHeaderView, QApplication)
 from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtGui import QColor, QFont
-from database import get_connection
-from confirm_dialog import confirm
+from py.database import get_connection
+from py.confirm_dialog import confirm
 
 
 # ── Add / Edit Employee Dialog ────────────────────────────────────────────────

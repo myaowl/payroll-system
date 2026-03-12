@@ -4,7 +4,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import (QWidget, QTableWidgetItem, QMessageBox,
                               QFileDialog, QHeaderView)
 from PyQt5.QtCore import Qt
-from database import get_connection
+from py.database import get_connection
 
 
 class SalaryReport(QWidget):

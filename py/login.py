@@ -3,7 +3,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import (QMainWindow, QApplication, QPushButton,
                               QLineEdit, QSizePolicy)
 from PyQt5.QtCore import Qt
-from database import get_connection, initialize_db
+from py.database import get_connection, initialize_db
 
 
 class LoginWindow(QMainWindow):
@@ -92,10 +92,10 @@ class LoginWindow(QMainWindow):
 
     def open_dashboard(self, role, user):
         if role == "admin":
-            from admin_dashboard import AdminDashboard
+            from py.admin_dashboard import AdminDashboard
             self.dashboard = AdminDashboard(user)
         else:
-            from employee_dashboard import EmployeeDashboard
+            from py.employee_dashboard import EmployeeDashboard
             self.dashboard = EmployeeDashboard(user)
         self.dashboard.show()
         self.close()

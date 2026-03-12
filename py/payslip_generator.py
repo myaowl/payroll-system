@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
                               QDialog, QScrollArea, QFrame)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
-from database import get_connection
-from confirm_dialog import confirm
+from py.database import get_connection
+from py.confirm_dialog import confirm
 
 
 class PayslipPreviewDialog(QDialog):

@@ -6,8 +6,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "py"))
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QFont
-from database import initialize_db
-from login import LoginWindow
+from py.database import initialize_db
+from py.login import LoginWindow
 
 
 def main():

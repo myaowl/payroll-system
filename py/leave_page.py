@@ -427,8 +427,10 @@ class LeavePage(QWidget):
         hh.setSectionResizeMode(2, QHeaderView.Stretch)   # Type stretches
         hh.setSectionResizeMode(1, QHeaderView.Fixed)     # Employee fixed
         hh.setSectionResizeMode(7, QHeaderView.Fixed)     # Actions fixed
+        hh.setMinimumSectionSize(40)
+        hh.setFixedHeight(36)
         self.table.setColumnWidth(1, 130)                 # Employee name
-        self.table.setColumnWidth(7, 155)                 # Actions — enough for "🔍 View Details"
+        self.table.setColumnWidth(7, 155)                 # Actions
         self.table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -441,8 +443,14 @@ class LeavePage(QWidget):
                 color:#c8d6e5; alternate-background-color:#1e2a3a;
                 gridline-color:#2a3d55;
             }
-            QTableWidget::item { padding:6px 4px; }
+            QTableWidget::item { padding:8px 4px; }
             QTableWidget::item:selected { background:#4a9eff30; color:#fff; }
+            QHeaderView::section {
+                background:#1e2a3a; color:#8a9bb0;
+                padding:8px 4px; border:none;
+                border-bottom:1px solid #2a3d55;
+                font-weight:bold; font-size:12px;
+            }
         """)
         hh.setStyleSheet("background:#1e2a3a;color:#8a9bb0;padding:4px;")
         layout.addWidget(self.table)

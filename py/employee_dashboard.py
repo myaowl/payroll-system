@@ -1,8 +1,8 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QButtonGroup, QLabel, QVBoxLayout
 from PyQt5.QtCore import Qt
-from database import get_connection
-from confirm_dialog import confirm
+from py.database import get_connection
+from py.confirm_dialog import confirm
 
 
 class EmployeeDashboard(QMainWindow):
@@ -82,8 +82,8 @@ class EmployeeDashboard(QMainWindow):
                 layout.addRow(lbl, val)
 
     def load_sub_pages(self):
-        from payslip_generator import PayslipGenerator
-        from leave_page        import LeavePage
+        from py.payslip_generator import PayslipGenerator
+        from py.leave_page        import LeavePage
 
         self.payslipWidget = PayslipGenerator(emp_id=self.emp_id)
         self.leaveWidget   = LeavePage(is_admin=False, emp_id=self.emp_id)
@@ -104,7 +104,7 @@ class EmployeeDashboard(QMainWindow):
         if not confirm(self, "Logout", "Are you sure you want to logout?",
                 confirm_text="Logout", confirm_color="#e74c3c", icon="🚪"):
             return
-        from login import LoginWindow
+        from py.login import LoginWindow
         self.login = LoginWindow()
         self.login.show()
         self.close()

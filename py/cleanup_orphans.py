@@ -6,7 +6,7 @@ Usage:  python cleanup_orphans.py
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
-from database import get_connection
+from py.database import get_connection
 
 conn   = get_connection()
 cursor = conn.cursor()
